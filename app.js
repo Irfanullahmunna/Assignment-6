@@ -16,6 +16,7 @@ const KEY = '20268382-3befd380a826d86834f312b0e';
 const searchNature = () => {
   const searchText = document.getElementById("search").value;
   const url = `https://pixabay.com/api/?key=${KEY}&q=${searchText}&image_type=photo`;
+  toggleSpinner(true);
   fetch(url)
   .then(res => res.json())
   .then(data => showImages(data.hits))
@@ -26,6 +27,7 @@ const searchNature = () => {
 document.getElementById("search").addEventListener("keypress", function(event){
   if(event.key === 'Enter'){
     document.getElementById("search-btn").click();
+    toggleSpinner(true);
   }
 });
 
@@ -43,6 +45,7 @@ const showImages = (images) => {
     // console.log(image);
     imageDiv.innerHTML = ` <img id="image-container" class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(imageDiv);
+    toggleSpinner(false);
   });
 }
 // show images 
@@ -73,30 +76,50 @@ const getImages = (query) => {
 }
 
 
+// select item function hand in
 
-
-// Select Item Function
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  // element.classList.add('added');
-  // toggleSpinner();
   let item = sliders.indexOf(img);
-  if (item === -1) {
+  console.log(item);
+  if(item === -1){
     element.classList.add('added');
     sliders.push(img);
-    console.log(sliders);
-  } else {
-    // alert('Hey, Already added !')
-    element = event.target;
-
-    console.log(element);
-    console.log(sliders);
-    element.classList.remove('added');
-    sliders.pop();
-    item = -1;
   }
+  else{
+    element.classList.remove('added');
+    // const deleteItem = sliders.splice(item,1);
+    sliders.splice(item,1);
+    item = -1;
+    // console.log(deleteItem);
+  }  
 }
+
+
+
+// Select Item Function
+// let slideIndex = 0;
+// const selectItem = (event, img) => {
+//   let element = event.target;
+//   // element.classList.add('added');
+//   // toggleSpinner();
+//   let item = sliders.indexOf(img);
+//   console.log(item);
+//   if (item === -1) {
+//     element.classList.add('added');
+//     sliders.push(img);
+//     console.log(sliders);
+//   } else {
+//     // alert('Hey, Already added !')
+//     // element = event.target;
+//     // console.log(element);
+//     // console.log(sliders);
+//     element.classList.remove('added');
+//     sliders.pop();
+//     item = -1;
+//   }
+// }
 
 
 
@@ -191,9 +214,16 @@ sliderBtn.addEventListener('click', function () {
 
 
 
-// const toggleSpinner = () => {
-//   const selectItem = document.getElementById("image-container");
-//   const spinner = document.getElementById("loading-spinner");
-//   spinner.classList.toggle('d-none');
-//   selectItem.classList.toggle('d-none');
-// }
+const toggleSpinner = (show) => {
+  // const selectItem = document.getElementById("image-container");
+  const spinner = document.getElementById("loading-spinner");
+  if(show){
+    spinner.classList.remove('d-none')
+  }
+  else{
+    spinner.classList.add('d-none');
+  }
+
+  // spinner.classList.toggle('d-none');
+  // selectItem.classList.toggle('d-none');
+}
