@@ -5,7 +5,9 @@
   margin: 0 auto;
   position: relative;
 }
-
+.search-text {
+  display: none;
+}
 .gallery-header {
   display: none;
 }
@@ -63,4 +65,13 @@ img {
     height: 300px;
     width: 90%;
   }
+}
+#cnt {
+  text-align: center;
+  color: black;
+  background-color: coral;
+}
+.footer p {
+  text-align: center;
+  text-shadow: 20px solid red;
 }
